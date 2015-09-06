@@ -1,0 +1,12 @@
+---
+- name: Is package installed?
+  shell: dpkg -l sublime-text-installer | tail -1 | cut -c1-2
+  register: dpkg_status    # should be "ii" if already installed
+
+- name: Add apt repo
+  apt_repository: repo='ppa:webupd8team/sublime-text-3' state=present update_cache=yes
+  when: "'ii' not in dpkg_status.stdout"
+
+- name: Install package
+  apt: pkg=sublime-text state=installed
+  when: "'ii' not in dpkg_status.stdout"

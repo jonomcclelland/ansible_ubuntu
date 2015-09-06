@@ -1,0 +1,16 @@
+---
+- name: Is package installed?
+  shell: dpkg -l {{ deb_pkg_short }} | tail -1 | cut -c1-2
+  register: dpkg_status    # should be "ii" if already installed
+
+- name: Download Debian Package
+  get_url:
+    url={{ deb_package_url }}
+    dest=/usr/local/src/{{ deb_pkg_long }}
+    #checksum={{ deb_pkg_cksum }}  # ansible 2.0 onwards
+  when: "'ii' not in dpkg_status.stdout"
+
+- name: Install package
+  apt: deb=/usr/local/src/{{ deb_pkg_long }}
+  when: "'ii' not in dpkg_status.stdout"
+

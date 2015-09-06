@@ -1,0 +1,3 @@
+---
+# vars file for virtualbox
+apt_file: /etc/apt/sources.list.d/virtual-box.list
