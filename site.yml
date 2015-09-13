@@ -1,8 +1,9 @@
 ---
 - hosts: all
   roles:
-    - { role: chrome,      tags: "desktop" }
-    - { role: sublimetext, tags: "desktop" }
+    - { role: chrome,      tags: "desktop,chrome" }
+    - { role: sublimetext, tags: "desktop,sublimetext" }
+    - { role: spotify,     tags: "desktop,spotify" }
 
     - { role: virtualbox, tags: "virtual" }
     - { role: vagrant,    tags: "virtual" }
