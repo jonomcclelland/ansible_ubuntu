@@ -1,7 +1,10 @@
 ---
 deb_pkg_short: vagrant
-vagrant_version: "1.7.4"
+vagrant_version: "1.8.4"
 deb_pkg_long: "{{ deb_pkg_short }}_{{ vagrant_version }}_x86_64.deb"
-deb_pkg_url: https://dl.bintray.com/mitchellh/{{ deb_pkg_short }}/{{ deb_pkg_long }}
-deb_pkg_cksum: sha256:050411ba8b36e322c4ce32990d2539e73a87fabd932f7397d2621986084eda6a
+deb_pkg_url: https://releases.hashicorp.com/{{ deb_pkg_short }}/{{ vagrant_version }}/{{ deb_pkg_long }}
+deb_pkg_cksum: sha256:fd38d8e00e494a617201facb42fc2cac627e5021db15e91c2a041eac6a2d8208
+# ...from https://releases.hashicorp.com/vagrant/1.8.4/vagrant_1.8.4_SHA256SUMS
 
+#OLD deb_pkg_url: https://dl.bintray.com/mitchellh/{{ deb_pkg_short }}/{{ deb_pkg_long }}
+#OLD deb_pkg_cksum: sha256:050411ba8b36e322c4ce32990d2539e73a87fabd932f7397d2621986084eda6a
