@@ -1,12 +1,35 @@
 ---
+
+- name: gather facts    # even/especially if we didn't earlier
+  setup:
+
+- name: Determine distro name (zesty, yakkety, etc)
+  set_fact:
+    distro_name: "{{ ansible_distribution_release }}"
+
+- name: Set distro to devel if a new development release
+  set_fact:
+    distro_name: "devel"
+  when: '"development" in "{{ ansible_lsb.description }}" '
+
 - name: Is package installed?
   shell: dpkg -l sublime-text-installer | tail -1 | cut -c1-2
   register: dpkg_status    # should be "ii" if already installed
 
-- name: Add apt repo
-  apt_repository: repo='ppa:webupd8team/sublime-text-3' state=present update_cache=yes
+- name: Add Sublime repo key
+  shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
   when: "'ii' not in dpkg_status.stdout"
 
-- name: Install package
-  apt: pkg=sublime-text state=installed
+- name: Add Sublime repo
+  copy: content="deb http://ppa.launchpad.net/webupd8team/sublime-text-3/ubuntu {{ distro_name }} main" dest={{apt_file}} owner=root group=root mode=644
   when: "'ii' not in dpkg_status.stdout"
+
+- name: Update apt cache
+  apt: update_cache=yes
+  check_mode: no 
+  when: "'ii' not in dpkg_status.stdout"
+
+- name: Install Sublime
+  apt: pkg=sublime-text-installer state=installed 
+  when: "'ii' not in dpkg_status.stdout"
+

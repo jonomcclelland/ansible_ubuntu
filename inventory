@@ -1,2 +1,5 @@
 ---
 localhost	ansible_connection=local
+
+# Add remote boxes below if required. Default connection will be over SSH
+

@@ -1,21 +1,16 @@
 ---
+
 ##########
 # Spotify on Unbutu 15.04 misses libgcrypt11 dependancy
-# Tried making libgcrypt11 a seperate role & a dependancy for Spotify but did't work.
-# Inserting here for now :0(
+
 - name: Is package installed?
   shell: dpkg -l {{ deb_pkg_short }} | tail -1 | cut -c1-2
   register: dpkg_status    # should be "ii" if already installed
 
-- name: Download Debian Package
-  get_url:
-    url={{ deb_pkg_url }}
-    dest=/usr/local/src/{{ deb_pkg_long }}
-    #checksum={{ deb_pkg_cksum }}  # ansible 2.0 onwards
-  when: "'ii' not in dpkg_status.stdout"
-
 - name: Install package
-  apt: deb=/usr/local/src/{{ deb_pkg_long }}
+  package:
+    name: "{{ deb_pkg_short }}"
+    state: present
   when: "'ii' not in dpkg_status.stdout"
 
 ##########
@@ -24,7 +19,7 @@
   register: apt_exists
   ignore_errors: True
 
-- name: Add Spotify key
+- name: Add Spotify repo key
   shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D2C19886
   when: apt_exists.rc == 1
 
