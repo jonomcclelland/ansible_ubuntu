@@ -1,0 +1,44 @@
+---
+
+# https://www.terraform.io/downloads.html
+# Pull down Terraform binary for Linux 64-bit, e.g..
+# https://releases.hashicorp.com/terraform/0.8.5/terraform_0.8.5_linux_amd64.zip
+# ...and extract directly to /usr/bin
+
+- name: set default
+  set_fact:
+    force_new_download: false
+
+- name: Check existing file exists?
+  stat:
+    path: /usr/bin/terraform
+  register: existing_file
+
+- name: If file does NOT exist, force download
+  set_fact: 
+    force_new_download: true
+  when: existing_file.stat.exists == false
+
+- name: If file DOES exist, does md5 match?
+  set_fact: 
+    force_new_download: "{{ existing_file.stat.md5 != '2b914503dd4412978a1069ff5e2a5101' }}"
+  when: existing_file.stat.exists
+
+- name: ensure old binary removed so unzip works below
+  file: path=/usr/bin/terraform state=absent
+  when:
+    - existing_file.stat.exists
+    - force_new_download
+
+- name: Download zip containing binary
+  get_url:
+    url={{ zip_url }}
+    dest=/tmp/
+  when: force_new_download
+
+- name: unzip downloaded file
+  unarchive:
+    src: /tmp/terraform_0.8.5_linux_amd64.zip
+    dest: /usr/bin
+  when: force_new_download
+

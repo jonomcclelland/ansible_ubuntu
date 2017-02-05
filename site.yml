@@ -9,9 +9,11 @@
     - { role: sublimetext, tags: "desktop,sublimetext" }
     - { role: spotify,     tags: "desktop,spotify" }
 
-    - { role: virtualbox, tags: "virtual" }
-    - { role: vagrant,    tags: "virtual" }
+    # broken if using beta relase of ubuntu :0(
+    #- { role: virtualbox, tags: "virtual" }
+    #- { role: vagrant,    tags: "virtual" }
 
+    - { role: terraform,   tags: "terraform" }
 
 # TBD:
 # zoom (webinars) ; reqs libxcb-xtest0

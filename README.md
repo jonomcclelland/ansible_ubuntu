@@ -32,5 +32,6 @@ Modify the inventory file if you need to add remote hosts. Just add the dns or I
     ansible-playbook -vvvv -i inventory -s site.yml -kK --tags=sublimetext
     ansible-playbook -vvvv -i inventory -s site.yml -kK --tags=virtual
     ansible-playbook -vvvv -i inventory -s site.yml -kK --tags=vagrant
+    ansible-playbook -vvvv -i inventory -s site.yml -kK --tags=terraform
 
 
